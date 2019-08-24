@@ -99,7 +99,7 @@ setup.template.settings:
 fields:
   User:
   Worker:
-  Udevid: 
+  Udevid:
 
 
 #============================== Dashboards =====================================
@@ -166,7 +166,7 @@ output.logstash:
   # The Logstash hosts
   enabled: true
   #hosts: ["localhost:5044"]
-  hosts: ["52.193.28.150:5044"]
+  hosts: ["54.95.190.87:5044"]
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
@@ -184,18 +184,24 @@ output.logstash:
 
 processors:
   - add_host_metadata: ~
-  - add_cloud_metadata: ~
+  #- add_cloud_metadata: ~
+
+#processors:
+#- include_fields:
+#    fields: ["cpu"]
+#- drop_fields:
+ #   fields: ["prospector"]
 
 #================================ Logging =====================================
 
 # Sets log level. The default log level is info.
 # Available log levels are: error, warning, info, debug
-#logging.level: info
+logging.level: info
 
 # At debug level, you can selectively enable logging only for some components.
 # To enable all selectors use ["*"]. Examples of other selectors are "beat",
 # "publish", "service".
-#logging.selectors: ["*"]
+logging.selectors: ["*"]
 
 #============================== Xpack Monitoring ===============================
 # filebeat can export internal metrics to a central Elasticsearch monitoring
@@ -211,3 +217,17 @@ processors:
 # have the Elasticsearch output configured, you can simply uncomment the
 # following line.
 #xpack.monitoring.elasticsearch:
+
+#========================= Filebeat global options ============================
+# Enable filebeat config reloading
+filebeat.config:
+  inputs:
+    enabled: true
+    path: inputs.d/*.yml
+    reload.enabled: true
+    reload.period: 10s
+  #modules:
+    #enabled: false
+    #path: modules.d/*.yml
+    #reload.enabled: true
+    #reload.period: 10s
